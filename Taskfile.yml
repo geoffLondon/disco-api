@@ -1,0 +1,142 @@
+version: '2'
+
+silent: true
+
+vars:
+  BUILD:
+    sh: git rev-parse --short HEAD
+  GOBIN: bin
+  LDFLAGS: -ldflags "-X=main.Version={{.BUILD}} -X=main.Build={{.BUILD}}"
+  SELF: "disco-api"
+
+tasks:
+  default:
+    cmds:
+      - task: build
+
+  install:
+    desc: Install all of the Go dependencies and set up your enviroment
+    deps: [binary-dependencies]
+    cmds:
+      - go env -w GOPRIVATE=github.com/geoffLondon
+
+  binary-dependencies:
+    desc: Install Go binary dependencies
+    cmds:
+      - task: go-get
+        vars: {REPO: github.com/google/wire/cmd/wire}
+      - task: go-get
+        vars: {REPO: github.com/onsi/ginkgo/ginkgo}
+      - task: go-get
+        vars: {REPO: github.com/onsi/gomega/...}
+      - task: go-get
+        vars: {REPO: github.com/golang/mock/mockgen}
+
+  go-get:
+    desc: Execute go-get against a certain repo
+    cmds:
+      - go get {{.REPO}}
+
+  test:unit:
+    desc: Execute all the unit tests
+    deps: [wires, mocks]
+    sources:
+      - '*/**.go'
+      - 'wire.go'
+    cmds:
+      - ginkgo -r -tags unit
+
+  test:
+    cmds:
+      - task: test:unit
+
+  mocks:
+    desc: Generate all the mocks needed for the tests
+    cmds:
+      - if [ -d mocks ]; then rm -r mocks; fi
+
+  mockgen:reflect:
+    desc: Generate a mock for an interface using reflect mode
+    generates:
+      - mocks/{{.DESTINATION_FILE}}
+    cmds:
+      - mockgen -destination=mocks/{{.DESTINATION_FILE}} -package=mocks {{.SOURCE_FILE}} {{.INTERFACE}}
+
+  mockgen:source:
+    desc: Generate a mock for an interface
+    generates:
+      - mocks/{{.DESTINATION_FILE}}
+    cmds:
+      - mockgen -source={{.SOURCE_FILE}} -destination="mocks/{{.SOURCE_FILE}}"
+
+  mockgen:
+    desc: Generate a mock for an interface
+    generates:
+      - mocks/{{.DESTINATION_FILE}}
+    cmds:
+      - mockgen -destination=mocks/{{.DESTINATION_FILE}} -package=mocks {{.SOURCE_FILE}} {{.INTERFACE}}
+
+  wires:
+    desc: Generate all the necessary dependency injection
+    deps:
+      - task: wire
+        vars: {WIRE_PACKAGE: '{{.SELF}}/lambda/return_string' }
+
+  wire:
+    desc: Generate the dependency injection from the Wire file
+    sources:
+      - '*/**.go'
+    generates:
+      - '{{.WIRE_PACKAGE}}/wire_gen.go'
+    cmds:
+      - wire {{.WIRE_PACKAGE}}
+    method: checksum
+
+  build-executable:
+    desc: Build the executable
+    deps:
+      - task: wire
+        vars: { WIRE_PACKAGE: './{{.SOURCE_PACKAGE}}' }
+    sources:
+      - '*/**.go'
+    generates:
+      - '{{.GOBIN}}/{{.DESTINATION_FILE}}'
+    cmds:
+      - GOARCH=amd64 GOOS=linux GOBIN={{.GOBIN}} go build {{.LDFLAGS}} -o {{.GOBIN}}/{{.DESTINATION_FILE}} {{.SELF}}/{{.SOURCE_PACKAGE}}
+    method: checksum
+
+  build:
+    desc: Build the assets
+    sources:
+      - '*/**.go'
+    deps:
+      - task: build-executable
+        vars: { DESTINATION_FILE: lambda/return_string, SOURCE_PACKAGE: lambda/return_string }
+
+  synth-local:
+    desc: Validate and synthetise deployment infrastructure
+    cmds:
+      - task: synth
+
+  synth:
+    desc: Synthetise deployment infrastructure
+    dir: stack
+    cmds:
+      - npm install
+      #- npm run lint
+      - npm run test
+      - npm run build
+      - npm run cdk bootstrap
+      - npm run cdk synth
+
+  deploy:
+    desc: Deploy the synthetised infrastructure
+    dir: stack
+    cmds:
+      - npm run cdk deploy
+
+  deploy-pipeline:
+    desc: Execute full deploy pipeline
+    cmds:
+      - task: synth
+      - task: deploy

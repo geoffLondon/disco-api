@@ -1,26 +1,66 @@
 {
   "name": "stack",
   "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/geoffLondon/disco-api"
+  },
+  "license": "UNLICENSED",
   "bin": {
     "stack": "cmd/stack.js"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "ts-jest"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint"
+    }
+  },
+  "prettier": {
+    "printWidth": 120,
+    "tabWidth": 4,
+    "useTabs": false,
+    "semi": false,
+    "singleQuote": true,
+    "bracketSpacing": true,
+    "trailingComma": "es5",
+    "arrowParens": "always"
   },
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "lint": "prettier --check **/*.ts",
+    "lint:fix": "prettier --write **/*.ts"
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.73.0",
-    "@types/jest": "^26.0.10",
+    "@types/jest": "^26.0.14",
     "@types/node": "10.17.27",
+    "aws-cdk": "^1.73.0",
+    "husky": "^4.3.0",
     "jest": "^26.4.2",
-    "ts-jest": "^26.2.0",
-    "aws-cdk": "1.73.0",
-    "ts-node": "^8.1.0",
-    "typescript": "~3.9.7"
+    "prettier": "^2.1.2",
+    "pretty-quick": "^3.0.2",
+    "ts-jest": "^26.4.0",
+    "ts-node": "^9.0.0",
+    "typescript": "~4.0.3"
   },
   "dependencies": {
+    "@aws-cdk/aws-sns": "^1.73.0",
+    "@aws-cdk/aws-sns-subscriptions": "^1.73.0",
+    "@aws-cdk/aws-lambda": "^1.73.0",
     "@aws-cdk/core": "1.73.0",
     "source-map-support": "^0.5.16"
   }
