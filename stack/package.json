@@ -2,7 +2,7 @@
   "name": "stack",
   "version": "0.1.0",
   "bin": {
-    "stack": "bin/stack.js"
+    "stack": "cmd/stack.js"
   },
   "scripts": {
     "build": "tsc",

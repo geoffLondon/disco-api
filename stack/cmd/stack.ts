@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/cmd/env node
 import 'source-map-support/register';
 import * as cdk from '@aws-cdk/core';
 import { StackStack } from '../lib/stack-stack';
