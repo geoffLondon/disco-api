@@ -7,7 +7,6 @@ export interface Config {
     environment: string
 }
 
-
 export const NewConfig = (stage: string): Config => {
     switch (stage) {
         case 'development':

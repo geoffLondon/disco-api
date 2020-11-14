@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import 'source-map-support/register'
 import * as cdk from '@aws-cdk/core'
-import {DiscoApiStack} from '../lib/disco-api-stack'
-import {Props} from "../lib/props"
-import {NewConfig} from '../lib/config'
-import {StackStaticConfig} from '../conf/static'
+import { DiscoApiStack } from '../lib/disco-api-stack'
+import { Props } from '../lib/props'
+import { NewConfig } from '../lib/config'
+import { StackStaticConfig } from '../conf/static'
 
 const app = new cdk.App()
 
