@@ -112,6 +112,8 @@ tasks:
     deps:
       - task: build-executable
         vars: { DESTINATION_FILE: lambda/return_string, SOURCE_PACKAGE: lambda/return_string }
+      - task: build-executable
+        vars: { DESTINATION_FILE: lambda/import_to_s3, SOURCE_PACKAGE: lambda/import_to_s3 }
 
   synth-local:
     desc: Validate and synthetise deployment infrastructure

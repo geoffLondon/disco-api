@@ -1,12 +1,9 @@
-/*import * as sns from '@aws-cdk/aws-sns'
-import * as subs from '@aws-cdk/aws-sns-subscriptions'
-import * as sqs from '@aws-cdk/aws-sqs'*/
 import { Construct, Duration } from '@aws-cdk/core'
 import * as lambda from '@aws-cdk/aws-lambda'
-import {Props} from "../props";
+import {DiscoApiStackProps} from "../disco-api-stack-props";
 import {Name} from '../../utils/resource-name'
 
-export const LambdaReturnString = (scope: Construct, props: Props): lambda.IFunction => {
+export const LambdaReturnString = (scope: Construct, props: DiscoApiStackProps): lambda.IFunction => {
     const lambdaId = Name(props, 'return-string')
 
     const environment = {}
@@ -21,14 +18,6 @@ export const LambdaReturnString = (scope: Construct, props: Props): lambda.IFunc
         handler: 'return_string',
         environment: environment,
     })
-
-    /*    const queue = new sqs.Queue(this, 'CdkTestAppQueue', {
-            visibilityTimeout: cdk.Duration.seconds(300)
-        });
-
-        const topic = new sns.Topic(this, 'CdkTestAppTopic');
-
-        topic.addSubscription(new subs.SqsSubscription(queue));*/
 
     return fn
 }

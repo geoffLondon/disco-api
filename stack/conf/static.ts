@@ -1,3 +1,6 @@
-import { StaticConfig } from '../lib/config'
+import { DiscoApiStackStaticConfig } from '../lib/disco-api-stack-config'
 
-export const StackStaticConfig: StaticConfig = {}
+export const StaticConfig: DiscoApiStackStaticConfig = {
+    sqsImportMessagesQueueName: 'import-messages',
+    receivedMessageSnsTopicArnCFOutput: 'consolidatedReceivedCallSnsTopicArn',
+}

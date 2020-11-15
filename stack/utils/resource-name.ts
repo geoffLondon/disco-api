@@ -1,5 +1,5 @@
-import { Props } from '../lib/props'
+import { DiscoApiStackProps } from '../lib/disco-api-stack-props'
 
-export const Name = (props: Props, name: string): string => {
+export const Name = (props: DiscoApiStackProps, name: string): string => {
     return `${props.stackName}-${name}`
 }

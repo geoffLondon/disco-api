@@ -1,13 +1,13 @@
 import { Name } from './resource-name'
-import { Props } from '../lib/props'
+import { DiscoApiStackProps } from '../lib/disco-api-stack-props'
 import { DevelopmentStackConfig } from '../conf/development'
-import { StackStaticConfig } from '../conf/static'
+import { StaticConfig } from '../conf/static'
 
 describe('Name', () => {
     it('returns a name base on the stack and stage', () => {
-        const props: Props = {
+        const props: DiscoApiStackProps = {
             config: DevelopmentStackConfig,
-            staticConfig: StackStaticConfig,
+            staticConfig: StaticConfig,
             stackName: 'hello',
         }
 

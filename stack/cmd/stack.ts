@@ -2,9 +2,9 @@
 import 'source-map-support/register'
 import * as cdk from '@aws-cdk/core'
 import { DiscoApiStack } from '../lib/disco-api-stack'
-import { Props } from '../lib/props'
-import { NewConfig } from '../lib/config'
-import { StackStaticConfig } from '../conf/static'
+import { DiscoApiStackProps } from '../lib/disco-api-stack-props'
+import { NewConfig } from '../lib/disco-api-stack-config'
+import { StaticConfig } from '../conf/static'
 
 const app = new cdk.App()
 
@@ -14,9 +14,9 @@ const stackName = 'disco-api'
 const description = 'A backend application using AWS-CDK'
 
 const config = NewConfig(stage)
-const staticConfig = StackStaticConfig
+const staticConfig = StaticConfig
 
-const props: Props = {
+const props: DiscoApiStackProps = {
     tags: {
         environment: config.environment,
         stage: config.stage,
