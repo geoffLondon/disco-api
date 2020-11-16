@@ -2,7 +2,7 @@ import { DevelopmentConfig } from '../conf/development'
 
 export interface DiscoApiStackStaticConfig {
     sqsImportMessagesQueueName: string
-    snsTopicImportMessages: string
+    snsImportMessages: string
 }
 
 export interface DiscoApiStackConfig {

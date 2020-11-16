@@ -4,7 +4,7 @@ import {Construct} from "@aws-cdk/core"
 import {Name} from "../../utils/resource-name"
 
 export const SnsTopicImportMessages = (stack: Construct, props: DiscoApiStackProps): sns.ITopic => {
-    const topicName = Name(props, `${props.staticConfig.snsTopicImportMessages}`)
+    const topicName = Name(props, `${props.staticConfig.snsImportMessages}`)
 
     return new sns.Topic(stack, topicName, {
         topicName: topicName,

@@ -14,9 +14,7 @@ interface LambdaImportMessagesArgs {
 export const LambdaImportMessages = (scope: Construct, props: DiscoApiStackProps, args: LambdaImportMessagesArgs): lambda.IFunction => {
     const lambdaId = Name(props, 'import-messages')
 
-    const environment = {
-        DISCO_API_SNS_NAME: Fn.importValue(props.staticConfig.snsTopicImportMessages)
-    }
+    const environment = {}
 
     const fn = new lambda.Function(scope, lambdaId, {
         functionName: lambdaId,
@@ -34,15 +32,13 @@ export const LambdaImportMessages = (scope: Construct, props: DiscoApiStackProps
     fn.addToRolePolicy(new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: ['s3:*'],
-        resources: [`${args.bucketArn}/*`],
+        resources: [`${args.bucketArn}/*`]
     }))
 
     fn.addToRolePolicy(new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: ['sns:Publish'],
-        resources: [
-            Fn.importValue(props.staticConfig.snsTopicImportMessages)
-        ]
+        resources: ['arn:aws:sns:eu-west-2:087958517077:disco-api-sns-import-messages']
     }))
 
     return fn
