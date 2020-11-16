@@ -1,4 +1,4 @@
-import { Construct, Duration } from '@aws-cdk/core'
+import { Construct, Duration, Fn} from '@aws-cdk/core'
 import * as lambda from '@aws-cdk/aws-lambda'
 import * as sqs from '@aws-cdk/aws-sqs'
 import * as iam from '@aws-cdk/aws-iam'
@@ -14,7 +14,9 @@ interface LambdaImportMessagesArgs {
 export const LambdaImportMessages = (scope: Construct, props: DiscoApiStackProps, args: LambdaImportMessagesArgs): lambda.IFunction => {
     const lambdaId = Name(props, 'import-messages')
 
-    const environment = {}
+    const environment = {
+        DISCO_API_SNS_NAME: Fn.importValue(props.staticConfig.receivedMessageSnsTopic)
+    }
 
     const fn = new lambda.Function(scope, lambdaId, {
         functionName: lambdaId,
@@ -34,6 +36,15 @@ export const LambdaImportMessages = (scope: Construct, props: DiscoApiStackProps
         actions: ['s3:*'],
         resources: [`${args.bucketArn}/*`],
     }))
+
+    fn.addToRolePolicy(new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['sns:Publish'],
+        resources: [
+            Fn.importValue(props.staticConfig.receivedMessageSnsTopic)
+        ]
+    }))
+
 
     return fn
 }

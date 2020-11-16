@@ -11,8 +11,12 @@ export class DiscoApiStack extends cdk.Stack {
 
     constructor(scope: cdk.Construct, id: string, props: DiscoApiStackProps) {
         super(scope, id, props)
-        const receivedMessageTopicArn = cdk.Fn.importValue(props.staticConfig.receivedMessageSnsTopicArnCFOutput)
-        this.receivedMessagesTopic = sns.Topic.fromTopicArn(this, 'received-messages-topic', receivedMessageTopicArn)
+        const receivedMessageTopicName = cdk.Fn.importValue(props.staticConfig.receivedMessageSnsTopic)
+        this.receivedMessagesTopic = sns.Topic.fromTopicArn(
+            this,
+            'disco-api-received-messages',
+            receivedMessageTopicName
+        )
 
         returnString(this, props)
         importMessagesS3(this, props)

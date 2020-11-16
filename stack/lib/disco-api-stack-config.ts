@@ -1,8 +1,8 @@
-import { DevelopmentStackConfig } from '../conf/development'
+import { DevelopmentConfig } from '../conf/development'
 
 export interface DiscoApiStackStaticConfig {
     sqsImportMessagesQueueName: string
-    receivedMessageSnsTopicArnCFOutput: string
+    receivedMessageSnsTopic: string
 }
 
 export interface DiscoApiStackConfig {
@@ -14,8 +14,8 @@ export interface DiscoApiStackConfig {
 export const NewConfig = (stage: string): DiscoApiStackConfig => {
     switch (stage) {
         case 'development':
-            return DevelopmentStackConfig
+            return DevelopmentConfig
         default:
-            return DevelopmentStackConfig
+            return DevelopmentConfig
     }
 }
