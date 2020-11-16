@@ -5,18 +5,13 @@ import { LambdaReturnString } from './api/lambda-return-string'
 import { LambdaImportMessages } from './import_messages_s3/lambda-import-messages'
 import { SqsQueueImportMessages } from './import_messages_s3/sqs-queue-import-messages'
 import { S3ImportMessages } from './import_messages_s3/s3-import-messages'
+import { SnsTopicImportMessages } from './import_messages_s3/sns-topic-import-messages'
 
 export class DiscoApiStack extends cdk.Stack {
-    receivedMessagesTopic: sns.ITopic
+    snsTopicImportMessages: sns.ITopic
 
     constructor(scope: cdk.Construct, id: string, props: DiscoApiStackProps) {
         super(scope, id, props)
-        const receivedMessageTopicName = cdk.Fn.importValue(props.staticConfig.receivedMessageSnsTopic)
-        this.receivedMessagesTopic = sns.Topic.fromTopicArn(
-            this,
-            'disco-api-received-messages',
-            receivedMessageTopicName
-        )
 
         returnString(this, props)
         importMessagesS3(this, props)
@@ -28,9 +23,9 @@ const returnString = (stack: DiscoApiStack, props: DiscoApiStackProps) => {
 }
 
 const importMessagesS3 = (stack: DiscoApiStack, props: DiscoApiStackProps) => {
-    const queue = SqsQueueImportMessages(stack, props, {
-        receivedMessagesTopic: stack.receivedMessagesTopic,
-    })
+    const topic = SnsTopicImportMessages(stack, props)
+
+    const queue = SqsQueueImportMessages(stack, props, { snsTopicImportMessages: topic })
 
     const s3Bucket = S3ImportMessages(stack, props)
 
