@@ -21,7 +21,7 @@ const returnString = (stack: DiscoApiStack, props: DiscoApiStackProps) => {
 }
 
 const importMessagesS3 = (stack: DiscoApiStack, props: DiscoApiStackProps) => {
-    const s3Bucket = S3ImportMessages(stack, props)
+    const s3Bucket = S3ImportMessages(stack)
     const queue = SqsQueueImportMessages(stack, props)
     const topic = SnsTopicImportMessages(stack, props)
 
