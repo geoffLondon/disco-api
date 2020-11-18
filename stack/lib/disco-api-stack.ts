@@ -1,6 +1,6 @@
 import * as cdk from '@aws-cdk/core'
 import { DiscoApiStackProps } from './disco-api-stack-props'
-import { LambdaReturnString } from './api/lambda-return-string'
+import { LambdaAReturnString } from './api/lambda-a-return-string'
 import { LambdaImportMessages } from './import_messages_s3/lambda-import-messages'
 import { S3ImportMessages } from './import_messages_s3/s3-import-messages'
 import * as subs from '@aws-cdk/aws-sns-subscriptions'
@@ -11,13 +11,13 @@ export class DiscoApiStack extends cdk.Stack {
     constructor(scope: cdk.Construct, id: string, props: DiscoApiStackProps) {
         super(scope, id, props)
 
-        returnString(this, props)
+        returnAString(this, props)
         importMessagesS3(this, props)
     }
 }
 
-const returnString = (stack: DiscoApiStack, props: DiscoApiStackProps) => {
-    LambdaReturnString(stack, props)
+const returnAString = (stack: DiscoApiStack, props: DiscoApiStackProps) => {
+    LambdaAReturnString(stack, props)
 }
 
 const importMessagesS3 = (stack: DiscoApiStack, props: DiscoApiStackProps) => {

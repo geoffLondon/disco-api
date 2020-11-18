@@ -80,7 +80,7 @@ tasks:
     desc: Generate all the necessary dependency injection
     deps:
       - task: wire
-        vars: {WIRE_PACKAGE: '{{.SELF}}/lambda/return_string' }
+        vars: {WIRE_PACKAGE: '{{.SELF}}/lambda/return_a_string' }
 
   wire:
     desc: Generate the dependency injection from the Wire file
@@ -111,7 +111,7 @@ tasks:
       - '*/**.go'
     deps:
       - task: build-executable
-        vars: { DESTINATION_FILE: lambda/return_string, SOURCE_PACKAGE: lambda/return_string }
+        vars: { DESTINATION_FILE: lambda/return_a_string, SOURCE_PACKAGE: lambda/return_a_string }
       - task: build-executable
         vars: { DESTINATION_FILE: lambda/import_to_s3, SOURCE_PACKAGE: lambda/import_to_s3 }
 

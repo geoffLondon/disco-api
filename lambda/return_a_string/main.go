@@ -8,14 +8,14 @@ import (
 	"os"
 )
 
-type ReturnStringHandlerLambda struct{}
+type ReturnAStringHandlerLambda struct{}
 
-func NewReturnStringHandlerLambda() *ReturnStringHandlerLambda {
-	return &ReturnStringHandlerLambda{}
+func NewReturnAStringHandlerLambda() *ReturnAStringHandlerLambda {
+	return &ReturnAStringHandlerLambda{}
 }
 
 func main() {
-	handlerLambda, err := InitializeReturnStringLambda()
+	handlerLambda, err := InitializeReturnAStringLambda()
 	if err != nil {
 		panic(fmt.Errorf("failed to create lambda: %v", err))
 	}
@@ -28,7 +28,7 @@ func init() {
 	log.SetReportCaller(true)
 }
 
-func (handler *ReturnStringHandlerLambda) Handle(ctx context.Context) (int, error) {
+func (handler *ReturnAStringHandlerLambda) Handle(ctx context.Context) (int, error) {
 	message, _ := fmt.Println("I can't wait for the Christmas break and a Happy New Year!")
 	return message, nil
 }
