@@ -9,9 +9,9 @@ import { StaticConfig } from '../conf/static'
 const app = new cdk.App()
 
 const stage = process.env.STAGE || 'development'
-const team = 'archimedes'
+const team = 'personal'
 const stackName = 'disco-api'
-const description = 'A backend application using AWS-CDK'
+const description = 'A backend application using AWS-CDK. (GG)'
 
 const config = NewConfig(stage)
 const staticConfig = StaticConfig
