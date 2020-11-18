@@ -29,6 +29,6 @@ func init() {
 }
 
 func (handler *ReturnStringHandlerLambda) Handle(ctx context.Context) (int, error) {
-	message, _ := fmt.Println("I can't wait for the Christmas break")
+	message, _ := fmt.Println("I can't wait for the Christmas break and a Happy New Year!")
 	return message, nil
 }
