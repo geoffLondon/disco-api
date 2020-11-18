@@ -11,11 +11,11 @@ import (
 )
 
 var Set = wire.NewSet(
+	NewImportMessagesHandlerLambda,
+
 	aws_config.NewAwsConfig,
 
 	config.NewConfig,
-
-	NewImportMessagesHandlerLambda,
 
 	newDiscoMessagesS3BucketService,
 	wire.Bind(new(s3.S3BucketService), new(*s3.S3BucketServiceImpl)),

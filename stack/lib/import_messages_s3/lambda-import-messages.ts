@@ -15,7 +15,9 @@ interface LambdaImportMessagesArgs {
 export const LambdaImportMessages = (scope: Construct, props: DiscoApiStackProps, args: LambdaImportMessagesArgs): lambda.IFunction => {
     const lambdaId = Name(props, 'import-messages')
 
-    const environment = {} //S3_MESSAGES_BUCKET_NAME
+    const environment = {
+        S3_MESSAGES_BUCKET_NAME: props.config.s3DiscoApiMessagesBucketName
+    }
 
     const fn = new lambda.Function(scope, lambdaId, {
         functionName: lambdaId,
@@ -28,9 +30,9 @@ export const LambdaImportMessages = (scope: Construct, props: DiscoApiStackProps
         environment: environment,
     })
 
-    new apiGateway.LambdaRestApi(scope, 'Endpoint', {
-        handler: fn
-    })
+    // new apiGateway.LambdaRestApi(scope, 'Endpoint', {
+    //     handler: fn
+    // })
 
     fn.addEventSource(new SqsEventSource(args.queue, {batchSize: 1}))
 

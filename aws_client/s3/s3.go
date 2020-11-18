@@ -12,8 +12,6 @@ import (
 
 type S3BucketService interface {
 	UploadFile(ctx context.Context, fileKey string, file []byte, fileContentType string) error
-	DownloadFile(ctx context.Context, fileKey string) ([]byte, error)
-	ListKeys(ctx context.Context, prefix string) ([]*string, error)
 }
 
 type S3BucketServiceImpl struct {
