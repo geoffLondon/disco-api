@@ -12,7 +12,7 @@ export const LambdaAReturnString = (scope: Construct, props: DiscoApiStackProps)
         functionName: lambdaId,
         description: 'Simple function that returns a string',
         runtime: lambda.Runtime.GO_1_X,
-        timeout: Duration.seconds(60),
+        timeout: Duration.seconds(30),
         memorySize: 512,
         code: lambda.Code.fromAsset('../bin/lambda', { exclude: ['**', '!return_a_string'] }),
         handler: 'return_a_string',
